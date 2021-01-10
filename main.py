@@ -29,7 +29,10 @@ upload.configure(background="#374256", foreground="wheat", font=('calibri', 10, 
 upload.pack(side=TOP, pady=50)
 
 
-
+# This code makes a button when the picture is transformed. It gives an alternative to save the cartoonified picture
+savel = Button(top, text="Save cartoon image", command=lambda: save(resize_image6, image_path), padx=30, pady=5)
+savel.configure(background="#364156", foreground="white", font=("calibri", 10, "bold"))
+savel.pack(side=TOP, pady=50)
 
 
 top.mainloop()
