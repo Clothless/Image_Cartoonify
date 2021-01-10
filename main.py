@@ -16,6 +16,19 @@ top.configure(background='#0f2c33')
 label = Label(top, background='#CDCDCD', font=('calibri', 20, 'bold'))
 
 
+# fileopenbox Function opens the box to choose file and help us store file path as string
+# fileopenbox() is a method from easyGUI module and it returned a string for the path chosen
+def upload():
+   image_path = easygui.fileopenbox()
+   cartoonify(image_path)
+
+
+# This is all about the button creation, calling of upload function, setting background, font, and other specifications
+upload = Button(top, text="Cartoonify an Image", command=upload, padx=10, pady=5)
+upload.configure(background="#374256", foreground="wheat", font=('calibri', 10, 'bold'))
+upload.pack(side=TOP, pady=50)
+
+
 
 
 
