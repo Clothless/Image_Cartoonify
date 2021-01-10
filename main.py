@@ -11,7 +11,7 @@ import sys			# This module provides access to some variables used or maintained 
 # Making the GUI main window
 top = tk.Tk()
 top.geometry('400x400')
-top.title('Image Cartoonify !')
+top.title('Cartoonify Your Image !')
 top.configure(background='#0f2c33')
 label = Label(top, background='#CDCDCD', font=('calibri', 20, 'bold'))
 
@@ -23,16 +23,16 @@ def upload():
     cartoonify(image_path)
 
 
-# This is all about the button creation, calling of upload function, setting background, font, and other specifications
-upload = Button(top, text="Cartoonify an Image", command=upload, padx=10, pady=5)
-upload.configure(background="#374256", foreground="wheat", font=('calibri', 10, 'bold'))
-upload.pack(side=TOP, pady=50)
-
-
-# This code makes a button when the picture is transformed. It gives an alternative to save the cartoonified picture
-savel = Button(top, text="Save cartoon image", command=lambda: save(resize_image6, image_path), padx=30, pady=5)
-savel.configure(background="#364156", foreground="white", font=("calibri", 10, "bold"))
-savel.pack(side=TOP, pady=50)
+# Enhancing the save button
+def save(resize_image6, image_path):
+	# saving an image using imwrite function
+	new_name = "Cartoonified_Image"
+	path1 = os.path.dirname(image_path)
+	extension = os.path.splitext(image_path)[1]
+	path = os.path.join(path1, new_name + extension)
+	cv2.imwrite(path, cv2.cvtColor(resize_image6, cv2.COLOR_RGB2BGR))
+	I = "Image saved by name " + new_name + " at " + path
+	tk.messagebox.showinfo(title=None, message=I)
 
 
 # Storing the Image
@@ -40,13 +40,14 @@ def cartoonify(image_path):
 	# Read image
 	# Imread is a method in cv2 which is used to store images in the form of numbers
 	original_image = cv2.imread(image_path)
-	original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
-	print(original_image) # this will be stored in form of number
 
 	# To confirm if it is an image that was chosing
 	if original_image is None:
-		print("Can’t find any image! Choose appropriate file. ")
+		print("Can't find any image! Choose appropriate file. ")
 		sys.exit()
+
+	original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+	print(original_image) # this will be stored in form of number
 	# Resize the image after each transformation
 	# We resize the image after each transformation to display all the images on a similar scale at last
 	resize_image1 = cv2.resize(original_image, (960, 540))
@@ -88,5 +89,26 @@ def cartoonify(image_path):
 	resize_image6 = cv2.resize(cartoon_image, (960, 540))
 	plt.imshow(resize_image6, cmap="gray")
 
-top.mainloop()
+	# Plotting all the transitions together
+	images = [resize_image1, resize_image2, resize_image3, resize_image4, resize_image5, resize_image6]
+	fig, axes = plt.subplots(3, 2, figsize=(8, 8), subplot_kw = {'xticks': [], 'yticks': []}, gridspec_kw=dict(hspace=0.1, wspace=0.1))
+	
+	for i, ax in enumerate(axes.flat):
+		ax.imshow(images[i], cmap='gray')
 
+	# This code makes a button when the picture is transformed. It gives an alternative to save the cartoonified picture
+	savel = Button(top, text="Save cartoon image", command=lambda: save(resize_image6, image_path), padx=30, pady=5)
+	savel.configure(background="#364156", foreground="white", font=("calibri", 10, "bold"))
+	savel.pack(side=TOP, pady=50)
+	sys.exit()
+	# save button code
+	plt.show()
+
+# This is all about the button creation, calling of upload function, setting background, font, and other specifications
+upload = Button(top, text="Cartoonify an Image", command=upload, padx=10, pady=5)
+upload.configure(background="#374256", foreground="wheat", font=('calibri', 10, 'bold'))
+upload.pack(side=TOP, pady=50)
+
+
+
+top.mainloop()
