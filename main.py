@@ -52,6 +52,18 @@ def cartoonify(image_path):
     resize_image1 = cv2.resize(original_image, (960, 540))
     plt.imshow(resize_image1, cmap='gray')
 
+	# Transform Image to grayscale
+	# Our first step is to convert the image into grayscale
+    grayscale_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+	# cvtColor(image, flag) is a method in cv2 which is used to transform an image into the colour-space mentioned as ‘flag’
+	# we use the BGR2GRAY flag. This returns the image in grayscale
+
+	# After each transformation, we resize the resultant image using the resize() method in cv2
+	# This is done to get more clear insights into every single transformation step
+    resize_image2 = cv2.resize(grayscale_image, (960, 540))
+	# And display it using imshow() method
+    plt.imshow(resize_image2, cmap="gray")
+	
 
 
 
