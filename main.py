@@ -70,10 +70,23 @@ def cartoonify(image_path):
 	resize_image3 = cv2.resize(smooth_grayscale_image, (960, 540))
 	plt.imshow(resize_image3, cmap="gray")
 
+	# Extracting the edges in the image
+	# Retrieving the edges for cartoon effect
+	get_edge = cv2.adaptiveThreshold(smooth_grayscale_image, 255, cv2.ADAPTIVE_THRESH_MEAN_C, cv2.THRESH_BINARY, 9, 9)
+	resize_image4 = cv2.resize(get_edge, (960, 540))
+	plt.imshow(resize_image4, cmap="gray")
 
+	# Smooth Colours
+	# Applying bilateral filter to remove noise
+	color_image = cv2.bilateralFilter(original_image, 9, 300, 300)
+	resize_image5 = cv2.resize(color_image, (960, 540))
+	plt.imshow(resize_image5, cmap="gray")
 
-
-
+	# Giving a Cartoon Effect
+	# Masking edged image with our “BEAUTIFY” image
+	cartoon_image = cv2.bitwise_and(color_image, color_image, mask=get_edge)
+	resize_image6 = cv2.resize(cartoon_image, (960, 540))
+	plt.imshow(resize_image6, cmap="gray")
 
 top.mainloop()
 
