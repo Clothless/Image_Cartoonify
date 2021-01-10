@@ -19,8 +19,8 @@ label = Label(top, background='#CDCDCD', font=('calibri', 20, 'bold'))
 # fileopenbox Function opens the box to choose file and help us store file path as string
 # fileopenbox() is a method from easyGUI module and it returned a string for the path chosen
 def upload():
-   image_path = easygui.fileopenbox()
-   cartoonify(image_path)
+    image_path = easygui.fileopenbox()
+    cartoonify(image_path)
 
 
 # This is all about the button creation, calling of upload function, setting background, font, and other specifications
@@ -35,4 +35,26 @@ savel.configure(background="#364156", foreground="white", font=("calibri", 10, "
 savel.pack(side=TOP, pady=50)
 
 
+# Storing the Image
+def cartoonify(image_path):
+    # Read image
+    # Imread is a method in cv2 which is used to store images in the form of numbers
+    original_image = cv2.imread(image_path)
+    original_image = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
+    print(original_image) # this will be stored in form of number
+
+	# To confirm if it is an image that was chosing
+    if original_image is None:
+    	print("Can’t find any image! Choose appropriate file. ")
+    	sys.exit()
+    # Resize the image after each transformation
+    # We resize the image after each transformation to display all the images on a similar scale at last
+    resize_image1 = cv2.resize(original_image, (960, 540))
+    plt.imshow(resize_image1, cmap='gray')
+
+
+
+
+
 top.mainloop()
+
